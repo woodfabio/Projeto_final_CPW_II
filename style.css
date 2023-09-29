@@ -1,0 +1,71 @@
+
+/* BODY, LOGO AND CONTENT DIVS----------------------------------------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.topo {
+    text-align: center;
+    padding: 0px;
+}
+
+.logo {
+    width: 20%;
+    margin: 0 auto;
+    padding: 0px;
+}
+
+.ilogo {
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+#sublogo {
+    font-family: "Courier";    
+    margin-top: 0px;
+}
+
+#content {
+    border-style: dashed;
+    border-color: black;
+    border-width: 5px;
+    width: 60%;
+    align-self: center;
+    margin-top: 5px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ALL SCREENS ----------------------------------------------------- */
+
+.gameMsg {
+    font-family: 'Courier New', monospace;
+    font-size:xx-large;
+}
+
+/* START SCREEN ----------------------------------------------------- */
+#chooseMsg {    
+    text-align: center;
+}
+
+.imagesContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0px;
+}
+
+.startFrontImg {
+    height: 500px; /* Fill the available height within imagesContainer */
+    width: auto;
+    margin: 0px;
+}
