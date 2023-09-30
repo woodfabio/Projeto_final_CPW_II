@@ -32,17 +32,16 @@ body {
 }
 
 #content {
-    border-style: dashed;
+    border-style: double;
     border-color: black;
-    border-width: 5px;
+    border-width: 10px;
     width: 60%;
     align-self: center;
     margin-top: 5px;
     height: 500px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    align-items: center;    
 }
 
 /* ALL SCREENS ----------------------------------------------------- */
@@ -60,12 +59,29 @@ body {
 .imagesContainer {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     padding: 0px;
 }
 
 .startFrontImg {
-    height: 500px; /* Fill the available height within imagesContainer */
+    height: 250px; /* Fill the available height within imagesContainer */
     width: auto;
     margin: 0px;
+    padding: 0px;
+}
+
+.pokemonImgContainer {
+    border-style: double;
+    border-color: black;
+    border-radius: 5%;
+    text-align: center;
+    margin: 5px;
+}
+
+.pokemonStarterName {
+    font-family: 'Courier New', monospace;
+}
+
+.pokemonStarterType {
+    font-family: 'Courier New', monospace;
+    font-size: medium;
 }
