@@ -4,20 +4,24 @@ window.addEventListener('DOMContentLoaded', function () {
     let pokeNames = ["Bulbasaur", "Charmander", "Squirtle"];
 
     // user data:
-    let pokeNum = 0;
+    let pokeNum = null;
 
     // ----------------------------------------------------------------------------------
     // functions:
 
     // function for create start screen:
     function startScreen () {
-        // game message:
+        // create disposable container:
         let content = document.getElementById("content");
+        let disposableContainer = document.getElementById("disposableContainer");
+        content.appendChild(disposableContainer);
+
+        // game message:        
         let chooseMsg = document.createElement("p");
         chooseMsg.textContent = "Choose a pokémon";
         chooseMsg.classList.add("gameMsg")
         chooseMsg.setAttribute("id","chooseMsg");
-        content.appendChild(chooseMsg);
+        disposableContainer.appendChild(chooseMsg);
 
         // pokemon images:
         // Container for images
@@ -28,7 +32,7 @@ window.addEventListener('DOMContentLoaded', function () {
         //  bulbasaur container
         let bulbasaurContainer = document.createElement("div");
         bulbasaurContainer.classList.add("pokemonImgContainer");
-        bulbasaurContainer.onclick = function(){pokeNum = 1};
+        bulbasaurContainer.onclick = function(){confirmChoice(0)};
         //      bulbasaur image
         let bulbasaurImg = document.createElement("img");
         bulbasaurImg.src = "images/bulbasaur.png";
@@ -50,8 +54,8 @@ window.addEventListener('DOMContentLoaded', function () {
         // charmander
         //  charmander container
         let charmanderContainer = document.createElement("div");
-        charmanderContainer.classList.add("pokemonImgContainer");        
-        bulbasaurContainer.onclick = function(){pokeNum = 2; confirmChoice();};
+        charmanderContainer.classList.add("pokemonImgContainer");
+        charmanderContainer.onclick = function(){confirmChoice(1)};
         //      charmander image
         let charmanderImg = document.createElement("img");
         charmanderImg.src = "images/charmander.png";
@@ -75,7 +79,7 @@ window.addEventListener('DOMContentLoaded', function () {
         // squirtle container
         let squirtleContainer = document.createElement("div");
         squirtleContainer.classList.add("pokemonImgContainer");
-        squirtleContainer.setAttribute("id", "squirtleCont");
+        squirtleContainer.onclick = function(){confirmChoice(2)};
         //      bulbasaur image
         let SquirtleImg = document.createElement("img");
         SquirtleImg.src = "images/squirtle.png";
@@ -94,17 +98,31 @@ window.addEventListener('DOMContentLoaded', function () {
         squirtleContainer.appendChild(squirtleType);
         imagesContainer.appendChild(squirtleContainer);
 
-        content.appendChild(imagesContainer);  
+        disposableContainer.appendChild(imagesContainer);  
 
     }
 
     // function to confirm pokémon choice:
-    function confirmChoice(n) {
-        pokeNum = n;
+    function confirmChoice(n) {        
         let choice = confirm("You choosed " + pokeNames[pokeNum] + ", are you sure?");
-        if (choice == false) {
-            pokenum = 0;
+        if (choice == true) {
+            pokeNum = n;
+            battleScreen(); // start battle screen
+        } else if (choice == false) {
+            pokenum = null;
         }
+    }
+
+    // function to go to battle screen:
+    function battleScreen() {
+        // delete disposable container
+        let content = document.getElementById("content");
+        let disposableContainer = document.getElementById("disposableContainer");
+        content.removeChild(disposableContainer);
+
+        // recreate disposable container:
+        let disposableContainer2 = document.getElementById("disposableContainer");
+        content.appendChild(disposableContainer2);
     }
     
 
