@@ -11,15 +11,14 @@ window.addEventListener('DOMContentLoaded', function () {
     // user data:
     let userPokemon = null;
 
-    // ------------------------------------------------------------------------------------------
+    // ==========================================================================================
     // functions:
 
     // function for create start screen:
     function startScreen () {
         // create disposable container:
         let content = document.getElementById("content");
-        let disposableContainer = document.getElementById("disposableContainer");
-        content.appendChild(disposableContainer);
+        let disposableContainer = document.getElementsByClassName("disposableContainer")[0];
 
         // game message:        
         let chooseMsg = document.createElement("p");
@@ -107,7 +106,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     }
 
-    // ------------------------------------------------------------------------------------------
+    // ==========================================================================================
     // function to confirm pokémon choice:
     function confirmChoice(n) {  
         let choice = confirm("You choosed " + pokeNames[n] + ", are you sure?");
@@ -129,22 +128,23 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // ------------------------------------------------------------------------------------------
+    // ==========================================================================================
     // function to recreate disposable container
-    function recreateDispCont() {
+    function recreateDispCont(screenName) {
         // delete disposable container
         let content = document.getElementById("content");
-        content.removeChild(document.getElementById("disposableContainer"));
-        console.log("disposable container removed");
+        content.removeChild(document.getElementsByClassName("disposableContainer")[0]);
 
         // recreate disposable container:
         let disposableContainer = document.createElement("div");
-        disposableContainer.setAttribute("id", "disposableContainer");
+        disposableContainer.classList.add("disposableContainer");
+        disposableContainer.setAttribute("id", screenName + "DisposableContainer");
         content.appendChild(disposableContainer);
-        console.log("disposable container recreated");
+
+        return disposableContainer.id;
     }
 
-    // ------------------------------------------------------------------------------------------
+    // ==========================================================================================
     // function to go to battle screen:
     function battleScreen() {
         // choose a random oponent pokemon:
@@ -162,9 +162,12 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         console.log(oponentPokemon);
 
+        // -----------------------------------------------------------------
         // recreate disposable container
-        recreateDispCont();
+        let disposableContainerId = recreateDispCont("battle");
+        let disposableContainer = document.getElementById(disposableContainerId);
 
+        // -----------------------------------------------------------------
         // create battle screen  
         //  create upper container
         let upperContainer = document.createElement("div");
@@ -176,37 +179,65 @@ window.addEventListener('DOMContentLoaded', function () {
         oponentPokeImg.src = oponentPokemon.frontImg;
         oponentPokeImg.classList.add("oponentPokeImg");        
         upperContainer.appendChild(oponentPokeImg);
-        //      create oponent pokemon name
+        //      create oponent pokemon data container:
+        let oponentPokeDataCont = document.createElement("div");        
+        oponentPokeDataCont.classList.add("battleDataContainer");        
+        oponentPokeDataCont.setAttribute("id", "oponentPokeDataCont");
+        upperContainer.appendChild(oponentPokeDataCont);
+        //          create oponent pokemon name
         let oponentPokeName = document.createElement("h1");
         oponentPokeName.textContent = oponentPokemon.name;
-        oponentPokeName.classList.add("oponentPokeName");
-        upperContainer.appendChild(oponentPokeName);
+        oponentPokeName.classList.add("oponentPokeName", "pokemonStarterName");
+        oponentPokeDataCont.appendChild(oponentPokeName);
 
+        // -----------------------------------------------------------------
         //  create mid container
         let midContainer = document.createElement("div");
         midContainer.classList.add("battleContainer");
-        midContainer.setAttribute("id","midContainer");
+        midContainer.setAttribute("id", "midContainer");
         disposableContainer.appendChild(midContainer);
         //      create user pokemon img
         let userPokeImg = document.createElement("img");
         userPokeImg.src = userPokemon.backImg;
         userPokeImg.classList.add("userPokeBackImg");
-        midContainer.appendChild(userPokeImg);
-        //      create user pokemon name
+        midContainer.appendChild(userPokeImg);        
+        //      create user pokemon data container:
+        let userPokeDataCont = document.createElement("div");        
+        userPokeDataCont.classList.add("battleDataContainer");
+        userPokeDataCont.setAttribute("id", "userPokeDataCont");
+        midContainer.appendChild(userPokeDataCont);
+        //          create user pokemon name
         let userPokeName = document.createElement("h1");
         userPokeName.textContent = userPokemon.name;
-        userPokeName.classList.add("userPokeName");        
-        midContainer.appendChild(userPokeName);
-
+        userPokeName.classList.add("userPokeName", "pokemonStarterName");
+        userPokeDataCont.appendChild(userPokeName);
+        
+        // -----------------------------------------------------------------
         //  create lower container
         let lowerContainer = document.createElement("div");
         lowerContainer.classList.add("battleContainer");
-        lowerContainer.setAttribute("id","lowerContainer");
+        lowerContainer.setAttribute("id", "lowerContainer");
+        disposableContainer.appendChild(lowerContainer);
+
+        //      create battle message:        
+        let battleMsgCont = document.createElement("div");
+        let battleMsg = document.createElement("h1");
+        battleMsg.textContent = "Choose a move:";
+        battleMsg.classList.add("gameMsg")
+        battleMsgCont.appendChild(battleMsg);
+        battleMsgCont.setAttribute("id","battleMsgCont");
+        lowerContainer.appendChild(battleMsgCont);
+
+        //      create moves container:        
+        let movesCont = document.createElement("div");
+        movesCont.setAttribute("id","movesCont");
+        lowerContainer.appendChild(movesCont);
+
 
     }
     
 
-    // ------------------------------------------------------------------------------------------
+    // ==========================================================================================
     
     window.addEventListener('DOMContentLoaded', startScreen());
 
