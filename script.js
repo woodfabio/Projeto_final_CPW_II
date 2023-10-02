@@ -18,6 +18,10 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // function for create start screen:
     function startScreen() {
+        // reset winner
+        winner = null;
+        winnerPokemon = null;
+
         // recreate disposable container:
         let disposableContainerId = recreateDispCont("start");
         let disposableContainer = document.getElementById(disposableContainerId);
@@ -156,7 +160,7 @@ window.addEventListener('DOMContentLoaded', function () {
         defender.hp -= damage;
 
         if (defender.hp <= 0) {
-            if (userPokemon.hp <= 0) {
+            if (oponentPokemon.hp <= 0) {
                 winner = "player";
                 winnerPokemon = userPokemon;
             } else {
@@ -164,28 +168,33 @@ window.addEventListener('DOMContentLoaded', function () {
                 winnerPokemon = oponentPokemon;
             }
             finalScreen();
-        }
-        
-        //  remove oponent hp container
-        let oponentPokeDataCont = document.getElementById("oponentPokeDataCont");
-        let oponentPokemonHp = document.getElementById("oponentPokemonHp");
-        oponentPokeDataCont.removeChild(oponentPokemonHp);
-        //  recreate oponent hp container                
-        let oponentPokemonHp2 = document.createElement("p");        
-        oponentPokemonHp2.setAttribute("id", "oponentPokemonHp");
-        oponentPokemonHp2.textContent = "HP: " + oponentPokemon.hp + "/" + oponentPokemon.maxHp;
-        oponentPokeDataCont.appendChild(oponentPokemonHp2);
+        } else {        
+            //  remove oponent hp container
+            let oponentPokeDataCont = document.getElementById("oponentPokeDataCont");
+            let oponentPokemonHp = document.getElementById("oponentPokemonHp");
+            oponentPokeDataCont.removeChild(oponentPokemonHp);
+            //  recreate oponent hp container                
+            let oponentPokemonHp2 = document.createElement("p");
+            oponentPokemonHp2.setAttribute("id", "oponentPokemonHp");
+            oponentPokemonHp2.classList.add("typeName");
+            oponentPokemonHp2.textContent = "HP: " + oponentPokemon.hp + "/" + oponentPokemon.maxHp;
+            oponentPokeDataCont.appendChild(oponentPokemonHp2);
+            console.log("oponent hp: " + oponentPokemon.hp);
+            console.log("oponent type: " + oponentPokemon.type);
 
-        // --------------------------------------------------------------------------------------
-        //  remove user hp container
-        let userPokeDataCont = document.getElementById("userPokeDataCont");
-        let userPokemonHp = document.getElementById("userPokemonHp");
-        userPokeDataCont.removeChild(userPokemonHp);
-        //  recreate user hp container                
-        let userPokemonHp2 = document.createElement("p");        
-        userPokemonHp2.setAttribute("id", "userPokemonHp");
-        userPokemonHp2.textContent = "HP: " + userPokemon.hp + "/" + userPokemon.maxHp;
-        userPokeDataCont.appendChild(userPokemonHp2);
+            // --------------------------------------------------------------------------------------
+            //  remove user hp container
+            let userPokeDataCont = document.getElementById("userPokeDataCont");
+            let userPokemonHp = document.getElementById("userPokemonHp");
+            userPokeDataCont.removeChild(userPokemonHp);
+            //  recreate user hp container                
+            let userPokemonHp2 = document.createElement("p");  
+            userPokemonHp2.classList.add("typeName");      
+            userPokemonHp2.setAttribute("id", "userPokemonHp");
+            userPokemonHp2.textContent = "HP: " + userPokemon.hp + "/" + userPokemon.maxHp;
+            userPokeDataCont.appendChild(userPokemonHp2);
+            console.log("user hp: " + userPokemon.hp);
+        }
     }
 
     // ==========================================================================================
@@ -203,11 +212,14 @@ window.addEventListener('DOMContentLoaded', function () {
         // attack
         if (userPokemon.spe > oponentPokemon.spe) {
             damage(userPokemon, userMove, oponentPokemon);
-            damage(oponentPokemon, oponentMove, userPokemon);
-            
+            if (winner == null) {
+                damage(oponentPokemon, oponentMove, userPokemon);
+            }            
         } else {
             damage(oponentPokemon, oponentMove, userPokemon);
-            damage(userPokemon, userMove, oponentPokemon);
+            if (winner == null) {
+                damage(userPokemon, userMove, oponentPokemon);
+            }
         }
     }
 
@@ -262,6 +274,7 @@ window.addEventListener('DOMContentLoaded', function () {
         oponentPokeDataCont.appendChild(oponentPokeName);
         //          create oponent pokemon hp
         let oponentPokemonHp = document.createElement("p");
+        oponentPokemonHp.classList.add("typeName");
         oponentPokemonHp.setAttribute("id", "oponentPokemonHp");
         oponentPokemonHp.textContent = "HP: " + oponentPokemon.hp + "/" + oponentPokemon.maxHp;
         oponentPokeDataCont.appendChild(oponentPokemonHp);
@@ -288,7 +301,8 @@ window.addEventListener('DOMContentLoaded', function () {
         userPokeName.classList.add("userPokeName", "pokemonStarterName");
         userPokeDataCont.appendChild(userPokeName);
         //          create user pokemon hp
-        let userPokemonHp = document.createElement("p");        
+        let userPokemonHp = document.createElement("p");
+        userPokemonHp.classList.add("typeName");      
         userPokemonHp.setAttribute("id", "userPokemonHp");
         userPokemonHp.textContent = "HP: " + userPokemon.hp + "/" + userPokemon.maxHp;
         userPokeDataCont.appendChild(userPokemonHp);
