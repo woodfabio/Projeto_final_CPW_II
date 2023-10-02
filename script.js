@@ -8,6 +8,7 @@ window.addEventListener('DOMContentLoaded', function () {
     let pokeNames = ["Bulbasaur", "Charmander", "Squirtle"];
     let oponentPokemon = null;
     let winner = null;
+    let winnerPokemon = null;
 
     // user data:
     let userPokemon = null;
@@ -16,15 +17,15 @@ window.addEventListener('DOMContentLoaded', function () {
     // functions:
 
     // function for create start screen:
-    function startScreen () {
-        // create disposable container:
-        let content = document.getElementById("content");
-        let disposableContainer = document.getElementsByClassName("disposableContainer")[0];
+    function startScreen() {
+        // recreate disposable container:
+        let disposableContainerId = recreateDispCont("start");
+        let disposableContainer = document.getElementById(disposableContainerId);
 
         // game message:        
         let chooseMsg = document.createElement("p");
         chooseMsg.textContent = "Choose a pokémon";
-        chooseMsg.classList.add("gameMsg")
+        chooseMsg.classList.add("gameMsg");
         chooseMsg.setAttribute("id","chooseMsg");
         disposableContainer.appendChild(chooseMsg);
 
@@ -133,9 +134,11 @@ window.addEventListener('DOMContentLoaded', function () {
     // ==========================================================================================
     // function to recreate disposable container
     function recreateDispCont(screenName) {
-        // delete disposable container
-        let content = document.getElementById("content");
-        content.removeChild(document.getElementsByClassName("disposableContainer")[0]);
+        // delete disposable container, if exists
+        if (document.getElementById("content")) {
+            let content = document.getElementById("content");
+            content.removeChild(document.getElementsByClassName("disposableContainer")[0]);
+        }
 
         // recreate disposable container:
         let disposableContainer = document.createElement("div");
@@ -147,7 +150,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==========================================================================================
-    // function to calc dmage
+    // function to calc damage
     function damage(attacker, move, defender) {
         let damage = attacker.attack(move, defender);
         defender.hp -= damage;
@@ -155,8 +158,10 @@ window.addEventListener('DOMContentLoaded', function () {
         if (defender.hp <= 0) {
             if (userPokemon.hp <= 0) {
                 winner = "player";
+                winnerPokemon = userPokemon;
             } else {
                 winner = "oponent";
+                winnerPokemon = oponentPokemon;
             }
             finalScreen();
         }
@@ -198,16 +203,11 @@ window.addEventListener('DOMContentLoaded', function () {
         // attack
         if (userPokemon.spe > oponentPokemon.spe) {
             damage(userPokemon, userMove, oponentPokemon);
-            if (oponentPokemon.hp > 0) {
-                damage(oponentPokemon, oponentMove, userPokemon);
-            } else {
-
-            }
+            damage(oponentPokemon, oponentMove, userPokemon);
+            
         } else {
             damage(oponentPokemon, oponentMove, userPokemon);
-            if (userPokemon.hp > 0) {
-                damage(userPokemon, userMove, oponentPokemon);
-            }
+            damage(userPokemon, userMove, oponentPokemon);
         }
     }
 
@@ -260,7 +260,7 @@ window.addEventListener('DOMContentLoaded', function () {
         oponentPokeName.textContent = oponentPokemon.name;
         oponentPokeName.classList.add("oponentPokeName", "pokemonStarterName");
         oponentPokeDataCont.appendChild(oponentPokeName);
-        //          create oponent pokemon HP
+        //          create oponent pokemon hp
         let oponentPokemonHp = document.createElement("p");
         oponentPokemonHp.setAttribute("id", "oponentPokemonHp");
         oponentPokemonHp.textContent = "HP: " + oponentPokemon.hp + "/" + oponentPokemon.maxHp;
@@ -287,7 +287,7 @@ window.addEventListener('DOMContentLoaded', function () {
         userPokeName.textContent = userPokemon.name;
         userPokeName.classList.add("userPokeName", "pokemonStarterName");
         userPokeDataCont.appendChild(userPokeName);
-        //          create user pokemon HP
+        //          create user pokemon hp
         let userPokemonHp = document.createElement("p");        
         userPokemonHp.setAttribute("id", "userPokemonHp");
         userPokemonHp.textContent = "HP: " + userPokemon.hp + "/" + userPokemon.maxHp;
@@ -388,11 +388,29 @@ window.addEventListener('DOMContentLoaded', function () {
         let disposableContainerId = recreateDispCont("final");
         let disposableContainer = document.getElementById(disposableContainerId);
 
-        // test
-        let test = document.createElement("h1");
-        test.textContent = "TEST";
-        disposableContainer.appendChild(test);
+        // final title
+        let finalTitle = document.createElement("h1");
+        finalTitle.classList.add("gameMsg");
+        finalTitle.textContent = "The winner is the " + winner;
+        disposableContainer.appendChild(finalTitle);
 
+        // winner image
+        let winnerImg = document.createElement("img");
+        winnerImg.classList.add("startFrontImg");
+        winnerImg.src = winnerPokemon.frontImg;
+        disposableContainer.appendChild(winnerImg);
+
+        // restart button
+        let restartButton = document.createElement("div");
+        restartButton.setAttribute("id", "restartButton");
+        let restartText = document.createElement("p");
+        restartText.textContent = "Restart";
+        restartText.classList.add("gameMsg");
+        restartText.setAttribute("id", "restartText");
+        restartButton.appendChild(restartText);
+        disposableContainer.appendChild(restartButton);
+
+        restartButton.onclick = function(){startScreen()};
     }
     
 

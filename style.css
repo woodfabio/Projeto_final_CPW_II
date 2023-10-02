@@ -179,3 +179,36 @@ body {
 #moveType {
     margin: 0px;
 }
+
+/* FINAL SCREEN ----------------------------------------------------- */
+#finalDisposableContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-around;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#restartButton {
+    border-style: solid;
+    border-color: black;
+    border-radius: 5%;
+    width: 170px;
+    height: 50px;
+    text-align: center;
+    align-items: center;
+    padding: 0px;
+}
+
+#restartText {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    margin-top: 5px;
+
+}
+
