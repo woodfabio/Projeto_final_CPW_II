@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', function () {
         //      bulbasaur type
         let bulbasaurType = document.createElement("h1");
         bulbasaurType.textContent = "Grass-type 🍃";        
-        bulbasaurType.classList.add("pokemonStarterType");
+        bulbasaurType.classList.add("typeName");
         //      append children
         bulbasaurContainer.appendChild(bulbasaurImg);
         bulbasaurContainer.appendChild(bulbasaurName);
@@ -72,7 +72,7 @@ window.addEventListener('DOMContentLoaded', function () {
         //      charmander type
         let charmanderType = document.createElement("h1");
         charmanderType.textContent = "Fire-type 🔥";        
-        charmanderType.classList.add("pokemonStarterType");
+        charmanderType.classList.add("typeName");
         //      append children
         charmanderContainer.appendChild(charmanderImg);
         charmanderContainer.appendChild(charmanderName);
@@ -95,7 +95,7 @@ window.addEventListener('DOMContentLoaded', function () {
         //      bulbasaur type
         let squirtleType = document.createElement("h1");
         squirtleType.textContent = "Water-type 💧";        
-        squirtleType.classList.add("pokemonStarterType");
+        squirtleType.classList.add("typeName");
         //      append children
         squirtleContainer.appendChild(SquirtleImg);
         squirtleContainer.appendChild(squirtleName);
@@ -223,7 +223,8 @@ window.addEventListener('DOMContentLoaded', function () {
         let battleMsgCont = document.createElement("div");
         let battleMsg = document.createElement("h1");
         battleMsg.textContent = "Choose a move:";
-        battleMsg.classList.add("gameMsg")
+        battleMsg.classList.add("gameMsg");
+        battleMsg.setAttribute("id", "battleMsg");
         battleMsgCont.appendChild(battleMsg);
         battleMsgCont.setAttribute("id","battleMsgCont");
         lowerContainer.appendChild(battleMsgCont);
@@ -237,11 +238,14 @@ window.addEventListener('DOMContentLoaded', function () {
         let moveSubcont1 = document.createElement("div");
         moveSubcont1.classList.add("moveSubCont");
 
-        let move1Name = document.createElement("h1");
+        let move1Name = document.createElement("h1");        
+        move1Name.classList.add("gameMsg");
         move1Name.textContent = userPokemon.move1.name;
         moveSubcont1.appendChild(move1Name);
 
         let move1Type = document.createElement("p");
+        move1Type.classList.add("typeName");
+        move1Type.setAttribute("id", "moveType");
         switch (userPokemon.move1.type) {
             case 100:
                 move1Type.textContent = "(🔘Normal)";
@@ -263,11 +267,14 @@ window.addEventListener('DOMContentLoaded', function () {
         let moveSubcont2 = document.createElement("div");
         moveSubcont2.classList.add("moveSubCont");
         
-        let move2Name = document.createElement("h1");
+        let move2Name = document.createElement("h1");        
+        move2Name.classList.add("gameMsg");
         move2Name.textContent = userPokemon.move2.name;
         moveSubcont2.appendChild(move2Name);
 
         let move2Type = document.createElement("p");
+        move2Type.classList.add("typeName");
+        move2Type.setAttribute("id", "moveType");
         switch (userPokemon.move2.type) {
             case 100:
                 move2Type.textContent = "(🔘Normal)";
