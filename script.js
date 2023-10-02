@@ -219,7 +219,7 @@ window.addEventListener('DOMContentLoaded', function () {
         lowerContainer.setAttribute("id", "lowerContainer");
         disposableContainer.appendChild(lowerContainer);
 
-        //      create battle message:        
+        //      create battle message       
         let battleMsgCont = document.createElement("div");
         let battleMsg = document.createElement("h1");
         battleMsg.textContent = "Choose a move:";
@@ -228,10 +228,62 @@ window.addEventListener('DOMContentLoaded', function () {
         battleMsgCont.setAttribute("id","battleMsgCont");
         lowerContainer.appendChild(battleMsgCont);
 
-        //      create moves container:        
+        //      create moves container   
         let movesCont = document.createElement("div");
         movesCont.setAttribute("id","movesCont");
         lowerContainer.appendChild(movesCont);
+
+        //          create moves subcontainers
+        let moveSubcont1 = document.createElement("div");
+        moveSubcont1.classList.add("moveSubCont");
+
+        let move1Name = document.createElement("h1");
+        move1Name.textContent = userPokemon.move1.name;
+        moveSubcont1.appendChild(move1Name);
+
+        let move1Type = document.createElement("p");
+        switch (userPokemon.move1.type) {
+            case 100:
+                move1Type.textContent = "(🔘Normal)";
+                break;
+            case 0:
+                move1Type.textContent = "(🍃Grass)";
+                break;
+            case 1:
+                move1Type.textContent = "(🔥Fire)";
+                break;
+            case 2:
+                move1Type.textContent = "(💧Water)";
+                break;
+        }        
+        moveSubcont1.appendChild(move1Type);
+        movesCont.appendChild(moveSubcont1);
+
+        // -----------------------------------------------------------------
+        let moveSubcont2 = document.createElement("div");
+        moveSubcont2.classList.add("moveSubCont");
+        
+        let move2Name = document.createElement("h1");
+        move2Name.textContent = userPokemon.move2.name;
+        moveSubcont2.appendChild(move2Name);
+
+        let move2Type = document.createElement("p");
+        switch (userPokemon.move2.type) {
+            case 100:
+                move2Type.textContent = "(🔘Normal)";
+                break;
+            case 0:
+                move2Type.textContent = "(🍃Grass)";
+                break;
+            case 1:
+                move2Type.textContent = "(🔥Fire)";
+                break;
+            case 2:
+                move2Type.textContent = "(💧Water)";
+                break;
+        }        
+        moveSubcont2.appendChild(move2Type);        
+        movesCont.appendChild(moveSubcont2);
 
 
     }
