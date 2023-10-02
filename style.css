@@ -63,7 +63,7 @@ body {
 }
 
 .startFrontImg {
-    height: 500px;
+    height: 250px;
     width: auto;
     margin: 0px;
     padding: 0px;
@@ -84,4 +84,47 @@ body {
 .pokemonStarterType {
     font-family: 'Courier New', monospace;
     font-size: medium;
+}
+
+/* BATTLE SCREEN ----------------------------------------------------- */
+.battleContainer {
+    border-style: solid;
+    border-color: black;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#upperContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+#midContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+.userPokeBackImg {
+    height: 100px;
+    width: auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+.oponentPokeImg {
+    height: 100px;
+    width: auto;
+    margin: 0px;
+    padding: 0px;
 }
