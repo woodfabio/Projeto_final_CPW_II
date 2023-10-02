@@ -65,7 +65,7 @@ body {
 }
 
 .startFrontImg {
-    height: 500px; /* Fill the available height within imagesContainer */
+    height: 500px;
     width: auto;
     margin: 0px;
 }
