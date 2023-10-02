@@ -122,6 +122,7 @@ window.addEventListener('DOMContentLoaded', function () {
                     userPokemon = new Squirtle();
                     break;
             }
+            createOponent();
             battleScreen(); // start battle screen
         } else if (choice == false) {
             userPokemon = null;
@@ -145,8 +146,62 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==========================================================================================
-    // function to go to battle screen:
-    function battleScreen() {
+    // function to calc dmage
+    function damage(attacker, move, defender) {
+        let damage = attacker.attack(move, defender);
+        defender.hp -= damage;
+        
+        //  remove oponent hp container
+        let oponentPokeDataCont = document.getElementById("oponentPokeDataCont");
+        let oponentPokemonHp = document.getElementById("oponentPokemonHp");
+        oponentPokeDataCont.removeChild(oponentPokemonHp);
+        //  recreate oponent hp container                
+        let oponentPokemonHp2 = document.createElement("p");        
+        oponentPokemonHp2.setAttribute("id", "oponentPokemonHp");
+        oponentPokemonHp2.textContent = "HP: " + oponentPokemon.hp + "/" + oponentPokemon.maxHp;
+        oponentPokeDataCont.appendChild(oponentPokemonHp2);
+
+        // --------------------------------------------------------------------------------------
+        //  remove user hp container
+        let userPokeDataCont = document.getElementById("userPokeDataCont");
+        let userPokemonHp = document.getElementById("userPokemonHp");
+        userPokeDataCont.removeChild(userPokemonHp);
+        //  recreate user hp container                
+        let userPokemonHp2 = document.createElement("p");        
+        userPokemonHp2.setAttribute("id", "userPokemonHp");
+        userPokemonHp2.textContent = "HP: " + userPokemon.hp + "/" + userPokemon.maxHp;
+        userPokeDataCont.appendChild(userPokemonHp2);
+    }
+
+    // ==========================================================================================
+    // function to attack
+    function attack (userMove) {
+        // choose oponent move
+        let oponentMoveNum = Math.floor(Math.random() * 1);
+        let oponentMove = null;
+        if (oponentMoveNum == 0) {
+            oponentMove = oponentPokemon.move1;
+        } else {
+            oponentMove = oponentPokemon.move2;
+        }
+
+        // attack
+        if (userPokemon.spe > oponentPokemon.spe) {
+            damage(userPokemon, userMove, oponentPokemon);
+            if (oponentPokemon.hp > 0) {
+                damage(oponentPokemon, oponentMove, userPokemon);
+            }
+        } else {
+            damage(oponentPokemon, oponentMove, userPokemon);
+            if (userPokemon.hp > 0) {
+                damage(userPokemon, userMove, oponentPokemon);
+            }
+        }
+    }
+
+    // ==========================================================================================
+    // function to create oponent pokemon:
+    function createOponent() {
         // choose a random oponent pokemon:
         let oponentPokeNum = Math.floor(Math.random() * 3);
         switch (oponentPokeNum) {
@@ -161,136 +216,163 @@ window.addEventListener('DOMContentLoaded', function () {
                 break;
         }
         console.log(oponentPokemon);
+    }
 
-        // -----------------------------------------------------------------
-        // recreate disposable container
-        let disposableContainerId = recreateDispCont("battle");
-        let disposableContainer = document.getElementById(disposableContainerId);
+    // ==========================================================================================
+    // function to go to battle screen:
+    function battleScreen() {
+        if ((userPokemon.hp > 0) && (oponentPokemon.hp > 0)) {          
 
-        // -----------------------------------------------------------------
-        // create battle screen  
-        //  create upper container
-        let upperContainer = document.createElement("div");
-        upperContainer.classList.add("battleContainer");
-        upperContainer.setAttribute("id","upperContainer");        
-        disposableContainer.appendChild(upperContainer);
-        //      create oponent pokemon image
-        let oponentPokeImg = document.createElement("img");
-        oponentPokeImg.src = oponentPokemon.frontImg;
-        oponentPokeImg.classList.add("oponentPokeImg");        
-        upperContainer.appendChild(oponentPokeImg);
-        //      create oponent pokemon data container:
-        let oponentPokeDataCont = document.createElement("div");        
-        oponentPokeDataCont.classList.add("battleDataContainer");        
-        oponentPokeDataCont.setAttribute("id", "oponentPokeDataCont");
-        upperContainer.appendChild(oponentPokeDataCont);
-        //          create oponent pokemon name
-        let oponentPokeName = document.createElement("h1");
-        oponentPokeName.textContent = oponentPokemon.name;
-        oponentPokeName.classList.add("oponentPokeName", "pokemonStarterName");
-        oponentPokeDataCont.appendChild(oponentPokeName);
+            // recreate disposable container
+            let disposableContainerId = recreateDispCont("battle");
+            let disposableContainer = document.getElementById(disposableContainerId);
 
-        // -----------------------------------------------------------------
-        //  create mid container
-        let midContainer = document.createElement("div");
-        midContainer.classList.add("battleContainer");
-        midContainer.setAttribute("id", "midContainer");
-        disposableContainer.appendChild(midContainer);
-        //      create user pokemon img
-        let userPokeImg = document.createElement("img");
-        userPokeImg.src = userPokemon.backImg;
-        userPokeImg.classList.add("userPokeBackImg");
-        midContainer.appendChild(userPokeImg);        
-        //      create user pokemon data container:
-        let userPokeDataCont = document.createElement("div");        
-        userPokeDataCont.classList.add("battleDataContainer");
-        userPokeDataCont.setAttribute("id", "userPokeDataCont");
-        midContainer.appendChild(userPokeDataCont);
-        //          create user pokemon name
-        let userPokeName = document.createElement("h1");
-        userPokeName.textContent = userPokemon.name;
-        userPokeName.classList.add("userPokeName", "pokemonStarterName");
-        userPokeDataCont.appendChild(userPokeName);
-        
-        // -----------------------------------------------------------------
-        //  create lower container
-        let lowerContainer = document.createElement("div");
-        lowerContainer.classList.add("battleContainer");
-        lowerContainer.setAttribute("id", "lowerContainer");
-        disposableContainer.appendChild(lowerContainer);
+            // -----------------------------------------------------------------
+            // create battle screen  
+            //  create upper container
+            let upperContainer = document.createElement("div");
+            upperContainer.classList.add("battleContainer");
+            upperContainer.setAttribute("id","upperContainer");        
+            disposableContainer.appendChild(upperContainer);
+            //      create oponent pokemon image
+            let oponentPokeImg = document.createElement("img");
+            oponentPokeImg.src = oponentPokemon.frontImg;
+            oponentPokeImg.classList.add("oponentPokeImg");        
+            upperContainer.appendChild(oponentPokeImg);
+            //      create oponent pokemon data container:
+            let oponentPokeDataCont = document.createElement("div");        
+            oponentPokeDataCont.classList.add("battleDataContainer");        
+            oponentPokeDataCont.setAttribute("id", "oponentPokeDataCont");
+            upperContainer.appendChild(oponentPokeDataCont);
+            //          create oponent pokemon name
+            let oponentPokeName = document.createElement("h1");
+            oponentPokeName.textContent = oponentPokemon.name;
+            oponentPokeName.classList.add("oponentPokeName", "pokemonStarterName");
+            oponentPokeDataCont.appendChild(oponentPokeName);
+            //          create oponent pokemon HP
+            let oponentPokemonHp = document.createElement("p");
+            oponentPokemonHp.setAttribute("id", "oponentPokemonHp");
+            oponentPokemonHp.textContent = "HP: " + oponentPokemon.hp + "/" + oponentPokemon.maxHp;
+            oponentPokeDataCont.appendChild(oponentPokemonHp);
 
-        //      create battle message       
-        let battleMsgCont = document.createElement("div");
-        let battleMsg = document.createElement("h1");
-        battleMsg.textContent = "Choose a move:";
-        battleMsg.classList.add("gameMsg");
-        battleMsg.setAttribute("id", "battleMsg");
-        battleMsgCont.appendChild(battleMsg);
-        battleMsgCont.setAttribute("id","battleMsgCont");
-        lowerContainer.appendChild(battleMsgCont);
+            // -----------------------------------------------------------------
+            //  create mid container
+            let midContainer = document.createElement("div");
+            midContainer.classList.add("battleContainer");
+            midContainer.setAttribute("id", "midContainer");
+            disposableContainer.appendChild(midContainer);
+            //      create user pokemon img
+            let userPokeImg = document.createElement("img");
+            userPokeImg.src = userPokemon.backImg;
+            userPokeImg.classList.add("userPokeBackImg");
+            midContainer.appendChild(userPokeImg);        
+            //      create user pokemon data container:
+            let userPokeDataCont = document.createElement("div");        
+            userPokeDataCont.classList.add("battleDataContainer");
+            userPokeDataCont.setAttribute("id", "userPokeDataCont");
+            midContainer.appendChild(userPokeDataCont);
+            //          create user pokemon name
+            let userPokeName = document.createElement("h1");
+            userPokeName.textContent = userPokemon.name;
+            userPokeName.classList.add("userPokeName", "pokemonStarterName");
+            userPokeDataCont.appendChild(userPokeName);
+            //          create user pokemon HP
+            let userPokemonHp = document.createElement("p");        
+            userPokemonHp.setAttribute("id", "userPokemonHp");
+            userPokemonHp.textContent = "HP: " + userPokemon.hp + "/" + userPokemon.maxHp;
+            userPokeDataCont.appendChild(userPokemonHp);
+            
+            // -----------------------------------------------------------------
+            //  create lower container
+            let lowerContainer = document.createElement("div");
+            lowerContainer.classList.add("battleContainer");
+            lowerContainer.setAttribute("id", "lowerContainer");
+            disposableContainer.appendChild(lowerContainer);
 
-        //      create moves container   
-        let movesCont = document.createElement("div");
-        movesCont.setAttribute("id","movesCont");
-        lowerContainer.appendChild(movesCont);
+            //      create battle message       
+            let battleMsgCont = document.createElement("div");
+            let battleMsg = document.createElement("h1");
+            battleMsg.textContent = "Choose a move:";
+            battleMsg.classList.add("gameMsg");
+            battleMsg.setAttribute("id", "battleMsg");
+            battleMsgCont.appendChild(battleMsg);
+            battleMsgCont.setAttribute("id","battleMsgCont");
+            lowerContainer.appendChild(battleMsgCont);
 
-        //          create moves subcontainers
-        let moveSubcont1 = document.createElement("div");
-        moveSubcont1.classList.add("moveSubCont");
+            //      create moves container   
+            let movesCont = document.createElement("div");
+            movesCont.setAttribute("id","movesCont");
+            lowerContainer.appendChild(movesCont);
 
-        let move1Name = document.createElement("h1");        
-        move1Name.classList.add("gameMsg");
-        move1Name.textContent = userPokemon.move1.name;
-        moveSubcont1.appendChild(move1Name);
+            //          create moves subcontainers
+            let moveSubcont1 = document.createElement("div");
+            moveSubcont1.classList.add("moveSubCont");
 
-        let move1Type = document.createElement("p");
-        move1Type.classList.add("typeName");
-        move1Type.setAttribute("id", "moveType");
-        switch (userPokemon.move1.type) {
-            case 100:
-                move1Type.textContent = "(🔘Normal)";
-                break;
-            case 0:
-                move1Type.textContent = "(🍃Grass)";
-                break;
-            case 1:
-                move1Type.textContent = "(🔥Fire)";
-                break;
-            case 2:
-                move1Type.textContent = "(💧Water)";
-                break;
-        }        
-        moveSubcont1.appendChild(move1Type);
-        movesCont.appendChild(moveSubcont1);
+            let move1Name = document.createElement("h1");        
+            move1Name.classList.add("gameMsg");
+            move1Name.textContent = userPokemon.move1.name;
+            moveSubcont1.appendChild(move1Name);
 
-        // -----------------------------------------------------------------
-        let moveSubcont2 = document.createElement("div");
-        moveSubcont2.classList.add("moveSubCont");
-        
-        let move2Name = document.createElement("h1");        
-        move2Name.classList.add("gameMsg");
-        move2Name.textContent = userPokemon.move2.name;
-        moveSubcont2.appendChild(move2Name);
+            let move1Type = document.createElement("p");
+            move1Type.classList.add("typeName");
+            move1Type.setAttribute("id", "moveType");
+            switch (userPokemon.move1.type) {
+                case 100:
+                    move1Type.textContent = "(🔘Normal)";
+                    break;
+                case 0:
+                    move1Type.textContent = "(🍃Grass)";
+                    break;
+                case 1:
+                    move1Type.textContent = "(🔥Fire)";
+                    break;
+                case 2:
+                    move1Type.textContent = "(💧Water)";
+                    break;
+            }        
+            moveSubcont1.appendChild(move1Type);
+            movesCont.appendChild(moveSubcont1);
 
-        let move2Type = document.createElement("p");
-        move2Type.classList.add("typeName");
-        move2Type.setAttribute("id", "moveType");
-        switch (userPokemon.move2.type) {
-            case 100:
-                move2Type.textContent = "(🔘Normal)";
-                break;
-            case 0:
-                move2Type.textContent = "(🍃Grass)";
-                break;
-            case 1:
-                move2Type.textContent = "(🔥Fire)";
-                break;
-            case 2:
-                move2Type.textContent = "(💧Water)";
-                break;
-        }        
-        moveSubcont2.appendChild(move2Type);        
-        movesCont.appendChild(moveSubcont2);
+            // -----------------------------------------------------------------
+            let moveSubcont2 = document.createElement("div");
+            moveSubcont2.classList.add("moveSubCont");
+            
+            let move2Name = document.createElement("h1");        
+            move2Name.classList.add("gameMsg");
+            move2Name.textContent = userPokemon.move2.name;
+            moveSubcont2.appendChild(move2Name);
+
+            let move2Type = document.createElement("p");
+            move2Type.classList.add("typeName");
+            move2Type.setAttribute("id", "moveType");
+            switch (userPokemon.move2.type) {
+                case 100:
+                    move2Type.textContent = "(🔘Normal)";
+                    break;
+                case 0:
+                    move2Type.textContent = "(🍃Grass)";
+                    break;
+                case 1:
+                    move2Type.textContent = "(🔥Fire)";
+                    break;
+                case 2:
+                    move2Type.textContent = "(💧Water)";
+                    break;
+            }        
+            moveSubcont2.appendChild(move2Type);        
+            movesCont.appendChild(moveSubcont2);
+
+            console.log(userPokemon.move1);
+
+            // ----------------------------------------------------------------------------
+            // add "attack" function to the moves
+            moveSubcont1.onclick = function(){attack(userPokemon.move1)};
+            moveSubcont2.onclick = function(){attack(userPokemon.move2)};
+
+        } else {
+
+        }
+            
 
 
     }
