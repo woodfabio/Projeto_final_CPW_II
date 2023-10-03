@@ -79,6 +79,10 @@ body {
     cursor: pointer;
 }
 
+.pokemonImgContainer:hover {
+    background-color: rgba(149, 165, 166, 0.5);
+}
+
 .pokemonStarterName {
     font-family: 'Courier New', monospace;
 }
@@ -178,6 +182,10 @@ body {
     cursor: pointer;
 }
 
+.moveSubCont:hover {
+    background-color: rgba(149, 165, 166, 0.5);
+}
+
 #moveType {
     margin: 0px;
 }
@@ -205,6 +213,10 @@ body {
     align-items: center;
     padding: 0px;
     cursor: pointer;
+}
+
+#restartButton:hover {
+    background-color: rgba(149, 165, 166, 0.5);
 }
 
 #restartText {
