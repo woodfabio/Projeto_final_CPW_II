@@ -180,6 +180,7 @@ body {
     margin: 5px;
     padding: 0px;
     cursor: pointer;
+    user-select: none;
 }
 
 .moveSubCont:hover {
@@ -224,6 +225,7 @@ body {
     padding: 0px;
     text-align: center;
     margin-top: 5px;
+    user-select: none;
 
 }
 
