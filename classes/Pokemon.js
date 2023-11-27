@@ -26,30 +26,39 @@ class Pokemon {
                 switch (oponent.type) {
                     case 0:
                         effect = 0.5;
+                        break;
                     case 1:
                         effect = 0.5;
+                        break;
                     case 2:
                         effect = 2;
+                        break;
                 }
                 break;
             case 1: // fire
                 switch (oponent.type) {
                     case 0:
                         effect = 2;
+                        break;
                     case 1:
                         effect = 0.5;
+                        break;
                     case 2:
                         effect = 0.5;
+                        break;
                 }
                 break;
             case 2: // water
                 switch (oponent.type) {
                     case 0:
                         effect = 0.5;
+                        break;
                     case 1:
                         effect = 2;
+                        break;
                     case 2:
                         effect = 0.5;
+                        break;
                 }
                 break;
         }
