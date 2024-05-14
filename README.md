@@ -1,4 +1,4 @@
-# Projeto_final_CPW_II
+# Projeto_final_CPW_II - Simulador de Pokémon em JavasScript
 
 ## Conceito:
 “Pokémon - JS Version” é um minigame criado em linguagem JavaScript que consiste em um simulador de batalha entre dois pokémon, um controlado pelo usuário e outro pelo programa.
